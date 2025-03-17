@@ -185,7 +185,6 @@ public class Main {
         return result;
     }
 
-    // Método para agregar Pokémon a la base de datos (debería llamarse al leer los datos del archivo CSV)
     public static void addPokemonToDatabase(Pokemon pokemon) {
         pokemonMap.put(pokemon.getName(), pokemon);
     }
