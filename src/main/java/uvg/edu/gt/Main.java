@@ -1,16 +1,41 @@
 package uvg.edu.gt;
 
+import uvg.edu.gt.factory.MapFactory;
 import uvg.edu.gt.model.Pokemon;
 import uvg.edu.gt.utils.PokemonCSVReader;
 
 import java.util.*;
 
 public class Main {
-    private static Map<String, Pokemon> pokemonMap = new HashMap<>();
+    private static Map<String, Pokemon> pokemonMap;
     private static List<Pokemon> userCollection = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        // Solicitar al usuario que elija el tipo de mapa
+        System.out.println("Seleccione el tipo de mapa que desea usar:");
+        System.out.println("1. HashMap");
+        System.out.println("2. TreeMap");
+        System.out.println("3. LinkedHashMap");
+        System.out.print("Seleccione una opción: ");
+        int mapOption = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+
+        switch (mapOption) {
+            case 1:
+                pokemonMap = MapFactory.getMap("hashmap");
+                break;
+            case 2:
+                pokemonMap = MapFactory.getMap("treemap");
+                break;
+            case 3:
+                pokemonMap = MapFactory.getMap("linkedhashmap");
+                break;
+            default:
+                System.out.println("Opción no válida, se usará HashMap por defecto.");
+                pokemonMap = MapFactory.getMap("hashmap");
+        }
 
         // Cargar datos de Pokémon desde el archivo CSV en la carpeta resources
         String filePath = "src/main/resources/pokemon.csv";
@@ -33,6 +58,31 @@ public class Main {
                 case 1:
                     System.out.print("Ingrese el nombre del Pokémon: ");
                     String name = scanner.nextLine();
+                    if (!pokemonMap.containsKey(name)) {
+                        System.out.println("Pokémon no encontrado en la base de datos. Ingrese los detalles del nuevo Pokémon.");
+                        System.out.print("Ingrese el tipo 1 del Pokémon: ");
+                        String type1 = scanner.nextLine();
+                        System.out.print("Ingrese el tipo 2 del Pokémon (puede dejarse en blanco): ");
+                        String type2 = scanner.nextLine();
+                        System.out.print("Ingrese la clasificación del Pokémon: ");
+                        String classification = scanner.nextLine();
+                        System.out.print("Ingrese la altura del Pokémon: ");
+                        double height = scanner.nextDouble();
+                        System.out.print("Ingrese el peso del Pokémon: ");
+                        double weight = scanner.nextDouble();
+                        scanner.nextLine(); // Consumir el salto de línea
+                        System.out.print("Ingrese las habilidades del Pokémon: ");
+                        String abilities = scanner.nextLine();
+                        System.out.print("Ingrese la generación del Pokémon: ");
+                        int generation = scanner.nextInt();
+                        System.out.print("¿Es legendario? (true/false): ");
+                        boolean legendary = scanner.nextBoolean();
+                        scanner.nextLine(); // Consumir el salto de línea
+
+                        Pokemon newPokemon = new Pokemon(pokemonMap.size() + 1, name, type1, type2, classification, height, weight, abilities, generation, legendary);
+                        pokemonMap.put(name, newPokemon);
+                        System.out.println("Nuevo Pokémon añadido a la base de datos y a la colección del usuario.");
+                    }
                     System.out.println(addPokemonToUserCollection(name));
                     break;
                 case 2:
@@ -52,10 +102,14 @@ public class Main {
                     }
                     break;
                 case 4:
+                    long startTime = System.nanoTime();
                     List<Pokemon> sortedAllPokemon = getAllPokemonSortedByType();
+                    long endTime = System.nanoTime();
+                    long duration = endTime - startTime;
                     for (Pokemon p : sortedAllPokemon) {
                         System.out.println(p);
                     }
+                    System.out.println("Tiempo de ejecución: " + duration + " nanosegundos.");
                     break;
                 case 5:
                     System.out.print("Ingrese la habilidad: ");
