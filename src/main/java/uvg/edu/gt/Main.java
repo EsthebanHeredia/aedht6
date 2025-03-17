@@ -10,6 +10,23 @@ public class Main {
     private static Map<String, Pokemon> pokemonMap;
     private static List<Pokemon> userCollection = new ArrayList<>();
 
+    // Métodos accesores
+    public static Map<String, Pokemon> getPokemonMap() {
+        return pokemonMap;
+    }
+
+    public static void setPokemonMap(Map<String, Pokemon> map) {
+        pokemonMap = map;
+    }
+
+    public static List<Pokemon> getUserCollection() {
+        return userCollection;
+    }
+
+    public static void setUserCollection(List<Pokemon> collection) {
+        userCollection = collection;
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 

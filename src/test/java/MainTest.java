@@ -2,10 +2,10 @@ package uvg.edu.gt;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import uvg.edu.gt.factory.MapFactory;
 import uvg.edu.gt.model.Pokemon;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,8 +13,8 @@ class MainTest {
 
     @BeforeEach
     void setUp() {
-        Main.pokemonMap = MapFactory.getMap("hashmap");
-        Main.userCollection.clear();
+        Main.setPokemonMap(MapFactory.getMap("hashmap"));
+        Main.getUserCollection().clear();
         Main.addPokemonToDatabase(new Pokemon(1, "Bulbasaur", "Grass", "Poison", "Seed Pokémon", 0.7, 6.9, "Overgrow", 1, false));
         Main.addPokemonToDatabase(new Pokemon(4, "Charmander", "Fire", null, "Lizard Pokémon", 0.6, 8.5, "Blaze", 1, false));
     }
